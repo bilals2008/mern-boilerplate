@@ -8,7 +8,12 @@ import {
   Server,
   Shield,
   Zap,
+  Rocket,
+  Check,
+  Github
 } from 'lucide-react'
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 
 const techStack = [
   { label: 'React 19', category: 'Frontend' },
@@ -105,9 +110,10 @@ const HomePage = () => {
           }}
         />
 
-        <span className="inline-flex items-center gap-2 rounded-full border border-border px-4 py-1.5 text-xs font-medium text-muted-foreground mb-6 bg-muted/50 backdrop-blur">
-          🚀 Production-Ready Boilerplate
-        </span>
+        <Badge variant="outline" className="mb-6 gap-2 py-1.5 px-4 text-sm font-medium">
+          <Rocket className="w-4 h-4 text-primary" />
+          Production-Ready Boilerplate
+        </Badge>
 
         <h1 className="text-5xl sm:text-6xl font-bold tracking-tight leading-tight max-w-3xl">
           MERN{' '}
@@ -128,20 +134,21 @@ const HomePage = () => {
         </p>
 
         <div className="mt-8 flex flex-wrap gap-3 justify-center">
-          <a
-            href="https://github.com"
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold bg-primary text-primary-foreground hover:opacity-90 transition-opacity"
-          >
-            View on GitHub
-          </a>
-          <a
-            href="#features"
-            className="inline-flex items-center gap-2 rounded-lg border border-border px-5 py-2.5 text-sm font-semibold hover:bg-muted transition-colors"
-          >
-            Explore Features
-          </a>
+          <Button size="lg" asChild>
+            <a
+              href="https://github.com/bilals2008/mern-boilerplate"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Github className="w-4 h-4 mr-2" />
+              View on GitHub
+            </a>
+          </Button>
+          <Button size="lg" variant="outline" asChild>
+            <a href="#features">
+              Explore Features
+            </a>
+          </Button>
         </div>
       </section>
 
@@ -176,12 +183,13 @@ const HomePage = () => {
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             {techStack.map((t) => (
-              <span
+              <Badge
                 key={t.label}
-                className={`inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-semibold ${categoryColor[t.category]}`}
+                variant="secondary"
+                className={`text-xs font-semibold ${categoryColor[t.category]}`}
               >
                 {t.label}
-              </span>
+              </Badge>
             ))}
           </div>
         </div>
@@ -219,9 +227,13 @@ const HomePage = () => {
                   <td className="px-4 py-3 text-muted-foreground hidden sm:table-cell">{r.desc}</td>
                   <td className="px-4 py-3 text-center">
                     {r.auth ? (
-                      <span title="Auth required" className="text-amber-500">🔒</span>
+                      <span title="Auth required" className="inline-flex items-center justify-center">
+                        <Lock className="w-4 h-4 text-amber-500" />
+                      </span>
                     ) : (
-                      <span title="Public" className="text-emerald-500">✓</span>
+                      <span title="Public" className="inline-flex items-center justify-center">
+                        <Check className="w-4 h-4 text-emerald-500" />
+                      </span>
                     )}
                   </td>
                 </tr>

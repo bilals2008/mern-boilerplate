@@ -1,5 +1,6 @@
 // File: client/src/components/Topbar.jsx
 import ModeToggle from './ModeToggle'
+import { Button } from "@/components/ui/button"
 
 const Topbar = () => {
     return (
@@ -15,14 +16,16 @@ const Topbar = () => {
 
                 {/* Right side */}
                 <div className="flex items-center gap-3">
-                    <a
-                        href="https://github.com"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="hidden sm:inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                        GitHub
-                    </a>
+                    <Button variant="ghost" size="sm" asChild>
+                        <a
+                            href="https://github.com/bilals2008/mern-boilerplate"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="hidden sm:inline-flex items-center gap-2"
+                        >
+                            GitHub
+                        </a>
+                    </Button>
                     <ModeToggle />
                 </div>
             </div>
