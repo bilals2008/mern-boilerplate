@@ -10,8 +10,10 @@ import {
   Zap,
   Rocket,
   Check,
-  Github
+  Github,
+  Activity
 } from 'lucide-react'
+import { useState, useEffect } from 'react'
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 
@@ -95,6 +97,28 @@ const categoryColor = {
 }
 
 const HomePage = () => {
+  const [serverStatus, setServerStatus] = useState('checking') // 'checking' | 'online' | 'offline'
+
+  useEffect(() => {
+    const checkHealth = async () => {
+      try {
+        const res = await fetch('http://localhost:8800/health')
+        if (res.ok) {
+          setServerStatus('online')
+        } else {
+          setServerStatus('offline')
+        }
+      } catch (error) {
+        console.error('Health check failed:', error)
+        setServerStatus('offline')
+      }
+    }
+
+    checkHealth()
+    const interval = setInterval(checkHealth, 30000) // Poll every 30s
+    return () => clearInterval(interval)
+  }, [])
+
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
 
@@ -110,10 +134,28 @@ const HomePage = () => {
           }}
         />
 
-        <Badge variant="outline" className="mb-6 gap-2 py-1.5 px-4 text-sm font-medium">
-          <Rocket className="w-4 h-4 text-primary" />
-          Production-Ready Boilerplate
-        </Badge>
+        <div className="flex items-center gap-3 mb-6">
+          <Badge variant="outline" className="gap-2 py-1.5 px-4 text-sm font-medium">
+            <Rocket className="w-4 h-4 text-primary" />
+            Production-Ready Boilerplate
+          </Badge>
+
+          <Badge
+            variant="outline"
+            className={`gap-2 py-1.5 px-4 text-sm font-medium transition-colors ${serverStatus === 'online'
+              ? 'border-emerald-500/20 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+              : serverStatus === 'offline'
+                ? 'border-red-500/20 bg-red-500/10 text-red-600 dark:text-red-400'
+                : 'text-muted-foreground'
+              }`}
+          >
+            <Activity className={`w-4 h-4 ${serverStatus === 'online' ? 'text-emerald-500' :
+              serverStatus === 'offline' ? 'text-red-500' : 'animate-pulse'
+              }`} />
+            {serverStatus === 'online' ? 'Systems Operational' :
+              serverStatus === 'offline' ? 'System Offline' : 'Checking System...'}
+          </Badge>
+        </div>
 
         <h1 className="text-5xl sm:text-6xl font-bold tracking-tight leading-tight max-w-3xl">
           MERN{' '}
