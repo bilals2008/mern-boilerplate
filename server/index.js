@@ -1,13 +1,10 @@
-// File: server/index.js - MINIMAL VERSION TO GET STARTED
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import express from 'express'
 import mongoose from 'mongoose'
 
-// Only import existing routes
 import authRoute from './routes/auth.js'
-// import referralRoute from './routes/referral.js' // Comment out for now
 
 const app = express()
 dotenv.config({ quiet: true })
@@ -28,7 +25,6 @@ app.use(
 
 // Routes
 app.use('/api/auth/', authRoute)
-// app.use('/api/referral/', referralRoute) // Comment out for now
 
 // Health check endpoint
 app.get('/health', (req, res) => {

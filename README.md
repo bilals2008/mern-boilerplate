@@ -1,6 +1,6 @@
 # MERN Boilerplate 🚀
 
-A production-ready full-stack boilerplate built with the **MERN stack**. Features a secure Express/MongoDB backend and a modern React + Vite + Tailwind CSS v4 frontend. Includes a built-in **authentication system** and a **referral system** out of the box.
+A production-ready full-stack boilerplate built with the **MERN stack**. Features a secure Express/MongoDB backend and a modern React + Vite + Tailwind CSS v4 frontend with a built-in **authentication system**.
 
 ---
 
@@ -11,7 +11,6 @@ A production-ready full-stack boilerplate built with the **MERN stack**. Feature
 - 🔐 **JWT Authentication** — Secure token-based auth with HTTP-only cookies
 - 🔑 **Password Hashing** — bcryptjs with salt rounds of 12
 - 🛡️ **Security Middleware** — Helmet, CORS, rate limiting, and mongo-sanitize
-- 👥 **Referral System** — Auto-generated unique referral codes per user
 - 🧩 **Role-based Users** — `admin` and `user` roles
 - 🗃️ **MongoDB + Mongoose** — Schema validation, indexes, and virtuals
 - ⚡ **ES Modules** — Modern `import/export` syntax throughout
@@ -42,15 +41,13 @@ mern-boilerplate/
 │
 └── server/                     # Express + MongoDB backend
     ├── controllers/
-    │   ├── auth.js             # Register, login, logout logic
-    │   └── referral.js         # Referral system logic
+    │   └── auth.js             # Register, login, logout logic
     ├── middleware/
     │   └── authMiddleware.js   # Protect routes with JWT
     ├── models/
-    │   └── User.js             # User schema with referral fields
+    │   └── User.js             # User schema
     ├── routes/
-    │   ├── auth.js             # /api/auth/* routes
-    │   └── referral.js         # /api/referral/* routes
+    │   └── auth.js             # /api/auth/* routes
     ├── index.js                # Express app entry point
     ├── error.js                # Custom error helper
     ├── verifyToken.js          # JWT verification utility
@@ -122,19 +119,19 @@ npm run dev
 
 ### Auth Routes — `/api/auth`
 
-| Method | Endpoint    | Description           | Auth Required |
-| ------ | ----------- | --------------------- | ------------- |
-| POST   | `/register` | Register a new user   | ❌            |
-| POST   | `/login`    | Login and receive JWT | ❌            |
-| POST   | `/logout`   | Clear auth cookie     | ✅            |
-
-### Referral Routes — `/api/referral`
-
-| Method | Endpoint   | Description                  | Auth Required |
-| ------ | ---------- | ---------------------------- | ------------- |
-| GET    | `/my-code` | Get the user's referral code | ✅            |
-| GET    | `/stats`   | Get referral statistics      | ✅            |
-| POST   | `/apply`   | Apply a referral code        | ✅            |
+| Method | Endpoint           | Description                    | Auth Required |
+| ------ | ------------------ | ------------------------------ | ------------- |
+| POST   | `/signup`          | Register a new user            | ❌            |
+| POST   | `/signin`          | Login and receive JWT cookie   | ❌            |
+| GET    | `/profile/:id`     | Get user profile               | ✅            |
+| PUT    | `/change-password` | Change current user's password | ✅            |
+| POST   | `/logout`          | Clear auth cookie              | ✅            |
+| PUT    | `/profile`         | Update own profile             | ✅            |
+| PUT    | `/users/:id`       | Update user (self or admin)    | ✅            |
+| GET    | `/all-users`       | Get all users _(admin only)_   | ✅ Admin      |
+| POST   | `/create-user`     | Create a user _(admin only)_   | ✅ Admin      |
+| PUT    | `/admin/users/:id` | Admin update any user          | ✅ Admin      |
+| DELETE | `/admin/users/:id` | Delete a user _(admin only)_   | ✅ Admin      |
 
 ### Health Check
 
@@ -146,21 +143,15 @@ npm run dev
 
 ## 🗃️ User Model
 
-The `User` schema includes:
-
-| Field           | Type     | Description                       |
-| --------------- | -------- | --------------------------------- |
-| `name`          | String   | User's full name                  |
-| `email`         | String   | Unique email (lowercased)         |
-| `password`      | String   | Bcrypt hashed (hidden by default) |
-| `role`          | String   | `user` or `admin`                 |
-| `referralCode`  | String   | Auto-generated unique code        |
-| `referredBy`    | ObjectId | Reference to the referring user   |
-| `referrals`     | Array    | List of users referred            |
-| `referralStats` | Object   | `totalReferrals`, `rewards`, etc. |
-| `isActive`      | Boolean  | Account active status             |
-| `isDeleted`     | Boolean  | Soft delete flag                  |
-| `lastLogin`     | Date     | Last login timestamp              |
+| Field       | Type    | Description                       |
+| ----------- | ------- | --------------------------------- |
+| `name`      | String  | User's full name                  |
+| `email`     | String  | Unique email (lowercased)         |
+| `password`  | String  | Bcrypt hashed (hidden by default) |
+| `role`      | String  | `user` or `admin`                 |
+| `isActive`  | Boolean | Account active status             |
+| `isDeleted` | Boolean | Soft delete flag                  |
+| `lastLogin` | Date    | Last login timestamp              |
 
 ---
 
