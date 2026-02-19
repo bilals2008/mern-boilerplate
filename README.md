@@ -20,7 +20,6 @@ A production-ready full-stack boilerplate built with the **MERN stack**. Feature
 - ⚛️ **React 19** with React Router v7
 - 🎨 **Tailwind CSS v4** with `tw-animate-css`
 - 🧱 **shadcn/ui** component system (via Radix UI + CVA)
-- ⚡ **Vite 7** for blazing-fast development and builds
 - 🔍 **ESLint** configured with React hooks and refresh plugins
 
 ---
