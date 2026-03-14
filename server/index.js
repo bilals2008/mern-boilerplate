@@ -1,3 +1,4 @@
+// File: server/index.js
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import dotenv from 'dotenv'
